@@ -1,4 +1,4 @@
-<?php namespace Fv\Minions\Contract\Worker;
+<?php namespace Fv\Minions\Contracts\Worker;
 
 interface OrderInterface
 {

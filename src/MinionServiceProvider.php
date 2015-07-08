@@ -5,8 +5,8 @@ use Illuminate\Support\ServiceProvider;
 class MinionServiceProvider extends ServiceProvider
 {
     protected $workers = [
-        'fv.minion.order' => Fv\Minions\Workers\Order::class,
-        'fv.minion.shipment' => Fv\Minions\Workers\Shipment::class
+        'fv.minion.order' => \Fv\Minions\Workers\Order::class,
+        'fv.minion.shipment' => \Fv\Minions\Workers\Shipment::class
     ];
 
     public function register()
@@ -42,7 +42,7 @@ class MinionServiceProvider extends ServiceProvider
         $workers = $this->getWorkers();
 
         foreach ($workers as $name => $class) {
-            $this->app->bindShared($name, function ($app) {
+            $this->app->bindShared($name, function ($app) use ($class) {
                 return new $class($app['fv.minions']);
             });
         }
