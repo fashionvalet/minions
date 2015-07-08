@@ -1,0 +1,16 @@
+{
+    "name": "fashionvalet/minions",
+    "description": "Magento SOAP API bridge",
+    "require": {
+        "php": ">=5.5.9",
+        "artisaninweb/laravel-soap": "0.2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fv\\Minions\\": "src/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}
