@@ -16,11 +16,20 @@ class Shipment extends Worker implements ShipmentInterface
 
     public function createNewShipment($orderId)
     {
-        return $this->execute('salesOrderShipmentCreate', $orderId);
+        return $this->getSoapService()->call('salesOrderShipmentCreate', [
+            $this->getSoapSession(),
+            $orderId
+        ]);
     }
 
     public function addShipmentCarrier($shipmentId, $code, $carrier, $trackingNo)
     {
-        return $this->execute('salesOrderShipmentAddTrack', [$shipmentId, $code, $carrier, $trackingNo]);
+        return $this->getSoapService()->call('salesOrderShipmentAddTrack', [
+            $this->getSoapSession(),
+            $shipmentId,
+            $code,
+            $carrier,
+            $trackingNo
+        ]);
     }
 }
