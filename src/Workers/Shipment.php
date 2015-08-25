@@ -13,4 +13,14 @@ class Shipment extends Worker implements ShipmentInterface
     {
         return $this->execute('salesOrderShipmentInfo', $incrementId);
     }
+
+    public function createNewShipment($orderId)
+    {
+        return $this->execute('salesOrderShipmentCreate', $orderId);
+    }
+
+    public function addShipmentCarrier($shipmentId, $code, $carrier, $trackingNo)
+    {
+        return $this->execute('salesOrderShipmentAddTrack', [$shipmentId, $code, $carrier, $trackingNo]);
+    }
 }
