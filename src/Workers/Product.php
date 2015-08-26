@@ -21,12 +21,12 @@ class Product extends Worker implements ProductInterface
 
     public function getProductAttributeInfoByCode($code)
     {
-        return $this->getSoapService()->call('catalogProductAttributeInfo', [$this->getSession(), $code]);
+        return $this->getSoapService()->call('catalogProductAttributeInfo', [$this->getSoapSession(), $code]);
     }
 
     public function getProductInfoById($productId, $storeView = null, $attributes = array(), $productIdentifierType = "")
     {
-        return $this->getSoapService()->call('catalogProductInfo', [$this->getSession(), $productId, $storeView, $attributes, $productIdentifierType]);
+        return $this->getSoapService()->call('catalogProductInfo', [$this->getSoapSession(), $productId, $storeView, $attributes, $productIdentifierType]);
     }
 
     public function getProductInventoryStockItemListByIDs($productIds)
