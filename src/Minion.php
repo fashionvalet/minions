@@ -8,6 +8,8 @@ class Minion extends SoapWrapper
 
     public function __construct(array $settings)
     {
+        parent::__construct();
+
         $this->settings = $settings;
     }
 
@@ -21,7 +23,7 @@ class Minion extends SoapWrapper
                 ->cache(WSDL_CACHE_NONE)
                 ->options([
                     'username' => $settings['username'],
-                    'password' => $settings['password']
+                    'password' => $settings['password'],
                 ]);
         });
 
