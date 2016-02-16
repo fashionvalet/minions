@@ -1,7 +1,10 @@
-<?php namespace Fv\Minions\Contracts\Worker;
+<?php
+
+namespace Fv\Minions\Contracts\Worker;
 
 interface ShipmentInterface
 {
+
     public function getNewShipments(array $filters);
 
     public function getShipmentById($incrementId);
@@ -9,4 +12,6 @@ interface ShipmentInterface
     public function createNewShipment($orderId);
 
     public function addShipmentCarrier($shipmentId, $code, $carrier, $trackingNo);
+
+    public function getCarriers($orderId);
 }
