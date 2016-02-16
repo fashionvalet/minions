@@ -11,7 +11,7 @@ use Fv\Minions\Contracts\Worker\InvoiceInterface;
  * Copyright    : rifkiyandhi@gmail.com
  * Function     : 
  */
-class Invoice implements InvoiceInterface
+class Invoice extends Worker implements InvoiceInterface
 {
 
     public function addComment($increment_id, $comment, $email = false,
