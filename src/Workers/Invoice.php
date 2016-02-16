@@ -52,7 +52,7 @@ class Invoice extends Worker implements InvoiceInterface
 
     public function getInvoices(array $filters)
     {
-        return $this->execute('catalogProductList', $filters);
+        return $this->execute('salesOrderInvoiceList', $filters);
     }
 
 }
