@@ -7,7 +7,9 @@ class MinionServiceProvider extends ServiceProvider
     protected $workers = [
         'fv.minion.order' => \Fv\Minions\Workers\Order::class,
         'fv.minion.shipment' => \Fv\Minions\Workers\Shipment::class,
-        'fv.minion.product' => \Fv\Minions\Workers\Product::class
+        'fv.minion.product' => \Fv\Minions\Workers\Product::class,
+        'fv.minion.invoice' => \Fv\Minions\Workers\Invoice::class,
+        'fv.minion.inventory' => \Fv\Minions\Workers\Inventory::class
     ];
 
     public function register()
