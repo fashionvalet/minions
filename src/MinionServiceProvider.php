@@ -1,6 +1,7 @@
 <?php namespace Fv\Minions;
 
 use Illuminate\Support\ServiceProvider;
+use Fv\Minions\Workers;
 
 class MinionServiceProvider extends ServiceProvider
 {
@@ -16,16 +17,6 @@ class MinionServiceProvider extends ServiceProvider
     {
         $this->registerSoap();
         $this->registerWorkers();
-    }
-
-    public function provides()
-    {
-        return ['fv.minions'];
-    }
-
-    protected function getWorkers()
-    {
-        return $this->workers;
     }
 
     protected function registerSoap()
@@ -49,5 +40,15 @@ class MinionServiceProvider extends ServiceProvider
                 return new $class($app['fv.minions']);
             });
         }
+    }
+
+    protected function getWorkers()
+    {
+        return $this->workers;
+    }
+
+    public function provides()
+    {
+        return ['fv.minions'];
     }
 }

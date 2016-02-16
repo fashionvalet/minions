@@ -39,6 +39,15 @@ class Product extends Worker implements ProductInterface
         return $this->execute('catalogProductCustomOptionList', $productId, $storeId);
     }
 
+    public function createProduct($data)
+    {
+        // get attribute set
+        $attributeSets = $this->execute('catalogProductAttributeSetList', []);
+        $attributeSet = current($attributeSets);
+
+        return $this->execute('catalogProductCreate', [$data['type'], $attributeSet->set_id, $data['sku'], $data]);
+    }
+
 }
 
 /* End of file Product.php */
