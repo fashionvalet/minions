@@ -21,7 +21,7 @@ class MinionServiceProvider extends ServiceProvider
 
     protected function registerSoap()
     {
-        $this->app->bindShared('fv.minions', function ($app) {
+        $this->app->bind('fv.minions', function ($app) {
             $settings = $app['config']->get('services.minion');
 
             $minion = new Minion($settings);
@@ -36,7 +36,7 @@ class MinionServiceProvider extends ServiceProvider
         $workers = $this->getWorkers();
 
         foreach ($workers as $name => $class) {
-            $this->app->bindShared($name, function ($app) use ($class) {
+            $this->app->bind($name, function ($app) use ($class) {
                 return new $class($app['fv.minions']);
             });
         }
