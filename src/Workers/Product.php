@@ -9,7 +9,7 @@ use Fv\Minions\Contracts\Worker\ProductInterface;
  * Date Created : Aug 25, 2015 6:14:34 PM
  * File         : Product.php
  * Copyright    : rifkiyandhi@gmail.com
- * Function     : 
+ * Function     :
  */
 class Product extends Worker implements ProductInterface
 {
@@ -46,6 +46,14 @@ class Product extends Worker implements ProductInterface
         $attributeSet = current($attributeSets);
 
         return $this->execute('catalogProductCreate', [$data['type'], $attributeSet->set_id, $data['sku'], $data]);
+    }
+
+    public function updateInventory($sku, $qty)
+    {
+        return $this->getSoapService()->call('catalogInventoryStockItemUpdate', [$this->getSoapSession(), $sku, [
+            'qty' => $qty,
+            'is_in_stock' => $qty > 0 ? 1 : 0
+        ]]);
     }
 
 }
