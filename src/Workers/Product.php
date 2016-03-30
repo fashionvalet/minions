@@ -47,15 +47,6 @@ class Product extends Worker implements ProductInterface
 
         return $this->execute('catalogProductCreate', [$data['type'], $attributeSet->set_id, $data['sku'], $data]);
     }
-
-    public function updateInventory($sku, $qty)
-    {
-        return $this->getSoapService()->call('catalogInventoryStockItemUpdate', [$this->getSoapSession(), $sku, [
-            'qty' => $qty,
-            'is_in_stock' => $qty > 0 ? 1 : 0
-        ]]);
-    }
-
 }
 
 /* End of file Product.php */
