@@ -56,6 +56,11 @@ class Product extends Worker implements ProductInterface
         ]]);
     }
 
+    public function getInventories(array $skus)
+    {
+        return $this->getSoapService()->call('catalogInventoryStockItemList', [$this->getSoapSession(), $skus]);
+    }
+
 }
 
 /* End of file Product.php */
