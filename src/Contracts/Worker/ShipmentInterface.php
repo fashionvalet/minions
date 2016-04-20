@@ -11,6 +11,8 @@ interface ShipmentInterface
 
     public function createNewShipment($orderId);
 
+    public function createNewShipmentItems($orderId, array $items);
+
     public function addShipmentCarrier($shipmentId, $code, $carrier, $trackingNo);
 
     public function getCarriers($orderId);
