@@ -9,7 +9,7 @@ use Fv\Minions\Contracts\Worker\ProductInterface;
  * Date Created : Aug 25, 2015 6:14:34 PM
  * File         : Product.php
  * Copyright    : rifkiyandhi@gmail.com
- * Function     : 
+ * Function     :
  */
 class Product extends Worker implements ProductInterface
 {
@@ -47,7 +47,6 @@ class Product extends Worker implements ProductInterface
 
         return $this->execute('catalogProductCreate', [$data['type'], $attributeSet->set_id, $data['sku'], $data]);
     }
-
 }
 
 /* End of file Product.php */
