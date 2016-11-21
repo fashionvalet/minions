@@ -9,7 +9,7 @@ use Fv\Minions\Contracts\Worker\InvoiceInterface;
  * Date Created : Feb 16, 2016 10:43:51 AM
  * File         : Invoice.php
  * Copyright    : rifkiyandhi@gmail.com
- * Function     : 
+ * Function     :
  */
 class Invoice extends Worker implements InvoiceInterface
 {
@@ -17,42 +17,106 @@ class Invoice extends Worker implements InvoiceInterface
     public function addComment($increment_id, $comment, $email = false,
                                $include_comment = false)
     {
-        return $this->getSoapService()->call('salesOrderInvoiceAddComment', [
-                    $this->getSoapSession(),
-                    $increment_id,
-                    $comment,
-                    $email,
-                    $include_comment
-        ]);
+
     }
 
     public function cancelInvoice($increment_id)
     {
-        return $this->execute('salesOrderInvoiceCancel', $increment_id);
+
     }
 
     public function captureInvoice($increment_id)
     {
-        return $this->execute('salesOrderInvoiceCapture', $increment_id);
+
     }
 
     public function createInvoice($order_increment_id, array $data)
     {
-        return $this->getSoapService()->call('salesOrderInvoiceCreate', [
-                    $this->getSoapSession(),
-                    $order_increment_id,
-                    $data
-        ]);
+
     }
 
-    public function getInvoiceById($increment_id)
+    public function getInvoiceById($id)
     {
-        return $this->execute('salesOrderInvoiceInfo', $increment_id);
+        try
+        {
+            $response = $this->getClient()->get("invoices/{$id}");
+
+            if ($response->getStatusCode() === 200) {
+                return json_decode((string) $response->getBody());
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\GuzzleHttp\Exception\ClientException $ex)
+        {
+            \Log::error($ex->getResponse()->getBody());
+            return NULL;
+        }
     }
 
-    public function getInvoices(array $filters)
+    public function getInvoices(array $query = ['searchCriteria' => ['pageSize' => 100]])
     {
-        return $this->execute('salesOrderInvoiceList', $filters);
+        try
+        {
+            $response = $this->getClient()->get("invoices", [
+                'query' => $query]);
+
+            if ($response->getStatusCode() === 200) {
+                return json_decode((string) $response->getBody());
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\GuzzleHttp\Exception\ClientException $ex)
+        {
+            \Log::error($ex->getResponse()->getBody());
+            return NULL;
+        }
+    }
+
+    public function getInvoiceByIncrementId($incrementId)
+    {
+
+        $query['searchCriteria'] = [
+            'filter_groups' => [
+                [
+                    'filters' => [
+                        [
+                            'field'         => 'increment_id',
+                            'value'         => $incrementId,
+                            'conditionType' => 'eq'
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        try
+        {
+            $response = $this->getClient()->get("invoices", [
+                'query' => $query
+            ]);
+
+            if ($response->getStatusCode() === 200) {
+                $data = json_decode((string) $response->getBody());
+                if ($data && isset($data->items)) {
+                    return current($data->items);
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\GuzzleHttp\Exception\ClientException $ex)
+        {
+            \Log::error($ex->getResponse()->getBody());
+            return NULL;
+        }
     }
 
 }

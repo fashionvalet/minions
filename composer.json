@@ -3,7 +3,8 @@
     "description": "Magento SOAP API bridge",
     "require": {
         "php": ">=5.5.9",
-        "artisaninweb/laravel-soap": "0.2.*"
+        "artisaninweb/laravel-soap": "0.2.*",
+        "guzzlehttp/guzzle": "^6.0"
     },
     "autoload": {
         "psr-4": {
