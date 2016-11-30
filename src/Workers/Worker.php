@@ -1,44 +1,24 @@
-<?php namespace Fv\Minions\Workers;
+<?php
 
-use Artisaninweb\SoapWrapper\Service as SoapService;
+namespace Fv\Minions\Workers;
 
 abstract class Worker
 {
-    protected $soap;
 
-    protected $session;
+    /**
+     *
+     * @var \GuzzleHttp\Client
+     */
+    protected $client;
 
-    public function __construct(SoapService $soap)
+    public function __construct()
     {
-        $this->soap = $soap;
+        $this->client = app('fv.minions');
     }
 
-    public function getSoapService()
+    public function getClient()
     {
-        return $this->soap;
+        return $this->client;
     }
 
-    public function getSoapSession()
-    {
-        if (is_null($this->session)) {
-            $this->session = $this->generateNewSession();
-        }
-
-        return $this->session;
-    }
-
-    protected function generateNewSession()
-    {
-        $username = $this->getSoapService()->getOptions()['username'];
-        $password = $this->getSoapService()->getOptions()['password'];
-
-        $session = $this->getSoapService()->call('login', [$username, $password]);
-
-        return $session;
-    }
-
-    protected function execute($endpoint, $params)
-    {
-        return $this->getSoapService()->call($endpoint, [$this->getSoapSession(), $params]);
-    }
 }

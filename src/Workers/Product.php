@@ -14,39 +14,72 @@ use Fv\Minions\Contracts\Worker\ProductInterface;
 class Product extends Worker implements ProductInterface
 {
 
-    public function getProducts(array $filters)
-    {
-        return $this->execute('catalogProductList', $filters);
-    }
-
     public function getProductAttributeInfoByCode($code)
     {
-        return $this->getSoapService()->call('catalogProductAttributeInfo', [$this->getSoapSession(), $code]);
+
     }
 
-    public function getProductInfoById($productId, $storeView = null, $attributes = array(), $productIdentifierType = "")
+    public function getProductInfoById($productId, $storeView = null,
+                                       $attributes = array(),
+                                       $productIdentifierType = "")
     {
-        return $this->getSoapService()->call('catalogProductInfo', [$this->getSoapSession(), $productId, $storeView, $attributes, $productIdentifierType]);
+
     }
 
     public function getProductInventoryStockItemListByIDs($productIds)
     {
-        return $this->execute('catalogInventoryStockItemList', $productIds);
+
     }
 
     public function getProductOptionsListById($productId, $storeId)
     {
-        return $this->execute('catalogProductCustomOptionList', $productId, $storeId);
+
     }
 
-    public function createProduct($data)
+    public function getProducts(array $query = ['searchCriteria' => ['pageSize' => 100]])
     {
-        // get attribute set
-        $attributeSets = $this->execute('catalogProductAttributeSetList', []);
-        $attributeSet = current($attributeSets);
+        try
+        {
+            $response = $this->getClient()->get("products", [
+                'query' => $query
+            ]);
 
-        return $this->execute('catalogProductCreate', [$data['type'], $attributeSet->set_id, $data['sku'], $data]);
+            if ($response->getStatusCode() === 200) {
+                return json_decode((string) $response->getBody());
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\GuzzleHttp\Exception\ClientException $ex)
+        {
+            \Log::error($ex->getResponse()->getBody());
+            return NULL;
+        }
     }
+
+    public function getProductBySku($sku, $query = array())
+    {
+        try
+        {
+            $response = $this->getClient()->get("products/{$sku}", [
+                'query' => $query
+            ]);
+
+            if ($response->getStatusCode() === 200) {
+                return json_decode((string) $response->getBody());
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\GuzzleHttp\Exception\ClientException $ex)
+        {
+            \Log::error($ex->getResponse()->getBody());
+            return NULL;
+        }
+    }
+
 }
 
 /* End of file Product.php */

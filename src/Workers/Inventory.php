@@ -20,7 +20,7 @@ class Inventory extends Worker implements InventoryInterface
      */
     public function stockList(array $product_ids)
     {
-        return $this->execute('catalogInventoryStockItemList', $product_ids);
+
     }
 
     /**
@@ -30,11 +30,7 @@ class Inventory extends Worker implements InventoryInterface
      */
     public function stockUpdate($product_id, $data)
     {
-        return $this->getSoapService()->call('catalogInventoryStockItemUpdate', [
-            $this->getSoapSession(),
-            $product_id,
-            $data
-        ]);
+        
     }
 
 }

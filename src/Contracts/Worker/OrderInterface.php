@@ -1,16 +1,24 @@
-<?php namespace Fv\Minions\Contracts\Worker;
+<?php
+
+namespace Fv\Minions\Contracts\Worker;
 
 interface OrderInterface
 {
+
     public function getNewOrders(array $filters);
 
-    public function getOrderById($incrementId);
+    public function getOrderById($id);
 
-    public function addCommentToOrder($incrementId, $status, $comment = null, $notify = false);
+    public function addCommentToOrder($incrementId, $status, $comment = null,
+                                      $notify = false);
 
-    public function cancelOrder($incrementId);
+    public function cancelOrder($id);
 
-    public function holdOrder($incrementId);
+    public function holdOrder($id);
 
-    public function unholdOrder($incrementId);
+    public function unholdOrder($id);
+
+    public function getOrders(array $query = ['searchCriteria' => ['pageSize' => 100]]);
+
+    public function getOrderByIncrementId($incrementId);
 }
