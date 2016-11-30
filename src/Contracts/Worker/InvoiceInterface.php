@@ -7,7 +7,7 @@ interface InvoiceInterface
 
     public function getInvoices(array $filters);
 
-    public function getInvoiceById($increment_id);
+    public function getInvoiceById($id);
 
     public function createInvoice($order_increment_id, array $data);
 
@@ -17,4 +17,8 @@ interface InvoiceInterface
 
     public function addComment($increment_id, $comment, $email = false,
                                $include_comment = false);
+
+    public function getInvoiceByIncrementId($incrementId);
+
+    public function getInvoicesByOrderId($orderId);
 }

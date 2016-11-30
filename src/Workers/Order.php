@@ -42,7 +42,7 @@ class Order extends Worker implements OrderInterface
     {
         try
         {
-            $response = $this->client->post("order/{$id}/cancel");
+            $response = $this->client->post("orders/{$id}/cancel");
 
             if ($response->getStatusCode() === 200) {
                 return true;
@@ -62,7 +62,7 @@ class Order extends Worker implements OrderInterface
     {
         try
         {
-            $response = $this->client->post("order/{$id}/hold");
+            $response = $this->client->post("orders/{$id}/hold");
 
             if ($response->getStatusCode() === 200) {
                 return true;
@@ -82,7 +82,7 @@ class Order extends Worker implements OrderInterface
     {
         try
         {
-            $response = $this->client->post("order/{$id}/unhold");
+            $response = $this->client->post("orders/{$id}/unhold");
 
             if ($response->getStatusCode() === 200) {
                 return true;

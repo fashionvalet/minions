@@ -119,6 +119,49 @@ class Invoice extends Worker implements InvoiceInterface
         }
     }
 
+    public function getInvoicesByOrderId($orderId)
+    {
+        $query['searchCriteria'] = [
+            'filter_groups' => [
+                [
+                    'filters' => [
+                        [
+                            'field'         => 'order_Id',
+                            'value'         => $orderId,
+                            'conditionType' => 'eq'
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        try
+        {
+            $response = $this->getClient()->get("invoices", [
+                'query' => $query
+            ]);
+
+            if ($response->getStatusCode() === 200) {
+                $data = json_decode((string) $response->getBody());
+
+                if ($data && isset($data->items)) {
+                    return $data;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\GuzzleHttp\Exception\ClientException $ex)
+        {
+            \Log::error($ex->getResponse()->getBody());
+            return NULL;
+        }
+    }
+
 }
 
 /* End of file Invoice.php */
