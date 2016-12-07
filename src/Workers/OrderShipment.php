@@ -23,11 +23,11 @@ class OrderShipment extends Worker implements OrderShipmentInterface
         {
             $response = $this->client->post("order/{$orderId}/ship", [
                 'json' => [
-                    'items'           => $items,
-                    'tracks'          => $tracks,
-                    'comment'         => $comment,
-                    'isNotify'        => $isNotify,
-                    'isAppendComment' => $isAppendComment
+                    'items'         => $items,
+                    'tracks'        => $tracks,
+                    'comment'       => $comment,
+                    'notify'        => $isNotify,
+                    'appendComment' => $isAppendComment
                 ]
             ]);
 

@@ -20,7 +20,7 @@ class OrderInvoice extends Worker implements OrderInvoiceInterface
     {
         try
         {
-            $response = $this->client->post("order/{$orderId}/ship", [
+            $response = $this->client->post("order/{$orderId}/invoice", [
                 'json' => [
                     'items'           => $items,
                     'comment'         => $comment,
