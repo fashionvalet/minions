@@ -26,7 +26,7 @@ interface ProductInterface
 
     public function getProductBySku($sku, $query = []);
 
-    public function updateStockQtyAndStatusBySku($sku, $qty, $status = 0);
+    public function updateStockQtyAndStatusBySku($sku, $stockItemId, $data);
 
     public function getProductInventoryBySku($sku);
 }

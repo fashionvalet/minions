@@ -100,9 +100,27 @@ class Product extends Worker implements ProductInterface
         }
     }
 
-    public function updateStockQtyAndStatusBySku($sku, $qty, $status = 0)
+    public function updateStockQtyAndStatusBySku($sku, $stockItemId, $data)
     {
+        try
+        {
+            $response = $this->client->put("products/{$sku}/stockItems/{$stockItemId}", [
+                'json' => $data
+            ]);
 
+            if ($response->getStatusCode() === 200) {
+                $body = $response->getBody()->read(1024);
+                return intval(ltrim($body, '"'));
+            }
+            else {
+                return false;
+            }
+        }
+        catch (ClientException $ex)
+        {
+            Log::error($ex->getMessage());
+            return false;
+        }
     }
 
 }
