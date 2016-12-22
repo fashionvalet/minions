@@ -9,44 +9,111 @@ class OrderCreditMemo extends Worker implements OrderCreditMemoInterface
 
     public function getOrderCreditMemo($id)
     {
-        return $this->execute('salesOrderCreditmemoInfo', $id);
+        try
+        {
+            $response = $this->getClient()->get("creditmemos/{$id}");
+
+            if ($response->getStatusCode() === 200) {
+                return json_decode((string) $response->getBody());
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\GuzzleHttp\Exception\ClientException $ex)
+        {
+            \Log::error($ex->getResponse()->getBody());
+            return NULL;
+        }
     }
 
-    public function getOrderCreditMemos(array $filters)
+    public function getOrderCreditMemos(array $query = ['searchCriteria' => ['pageSize' => 100]])
     {
-        return $this->execute('salesOrderCreditmemoList', $filters);
+        try
+        {
+            $response = $this->getClient()->get("creditmemos", [
+                'query' => $query
+            ]);
+
+            if ($response->getStatusCode() === 200) {
+                return json_decode((string) $response->getBody());
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\GuzzleHttp\Exception\ClientException $ex)
+        {
+            \Log::error($ex->getResponse()->getBody());
+            return NULL;
+        }
     }
 
-    public function createOrderCreditMemo($order_increment_id, array $data,
-                                          $comment = '', $is_notify = false,
-                                          $is_include_comment_in_email = false)
+    public function createOrderCreditMemo(array $data)
     {
-        return $this->getSoapService()->call('salesOrderCreditmemoCreate', [
-                    $this->getSoapSession(),
-                    $order_increment_id,
-                    $data,
-                    $comment,
-                    $is_notify,
-                    $is_include_comment_in_email
-        ]);
+        try
+        {
+            $response = $this->getClient()->post("creditmemo", $data);
+
+            if ($response->getStatusCode() === 200) {
+                $body = $response->getBody()->read(1024);
+                return intval(ltrim($body, '"'));
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\GuzzleHttp\Exception\ClientException $ex)
+        {
+            \Log::error($ex->getResponse()->getBody());
+            return NULL;
+        }
     }
 
     public function addOrderCreditMemoComment($id, $comment = '',
-                                              $is_notify = false,
-                                              $is_include_comment_in_email = false)
+                                              $isNotify = false,
+                                              $isVisibleFrontend = false)
     {
-        return $this->getSoapService()->call('salesOrderCreditmemoAddComment', [
-                    $this->getSoapSession(),
-                    $id,
-                    $comment,
-                    $is_notify,
-                    $is_include_comment_in_email
-        ]);
+        try
+        {
+            $response = $this->getClient()->post("creditmemo/{$id}/comments", [
+                'comment'            => $comment,
+                'isCustomerNotified' => $isNotify,
+                'isVisibleOnFront'   => $isVisibleFrontend
+            ]);
+
+            if ($response->getStatusCode() === 200) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\GuzzleHttp\Exception\ClientException $ex)
+        {
+            \Log::error($ex->getResponse()->getBody());
+            return NULL;
+        }
     }
 
     public function cancelOrderCreditMemo($id)
     {
-        return $this->execute('salesOrderCreditmemoCreate', $id);
+        try
+        {
+            $response = $this->getClient()->put("creditmemo/{$id}");
+
+            if ($response->getStatusCode() === 200) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\GuzzleHttp\Exception\ClientException $ex)
+        {
+            \Log::error($ex->getResponse()->getBody());
+            return NULL;
+        }
     }
 
 }
