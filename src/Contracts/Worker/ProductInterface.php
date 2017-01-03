@@ -29,6 +29,10 @@ interface ProductInterface
     public function updateStockQtyAndStatusBySku($sku, $stockItemId, $data);
 
     public function getProductInventoryBySku($sku);
+
+    public function getChildProducts($parentSku);
+
+    public function getProductMediaList($sku);
 }
 
 /* End of file ProductInterface.php */

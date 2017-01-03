@@ -119,7 +119,47 @@ class Product extends Worker implements ProductInterface
         catch (ClientException $ex)
         {
             Log::error($ex->getMessage());
-            return false;
+            return NULL;
+        }
+    }
+
+    public function getChildProducts($parentSku)
+    {
+        try
+        {
+            $response = $this->getClient()->get("configurable-products/{$parentSku}");
+
+            if ($response->getStatusCode() === 200) {
+                return json_decode((string) $response->getBody());
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\GuzzleHttp\Exception\ClientException $ex)
+        {
+            \Log::error($ex->getResponse()->getBody());
+            return NULL;
+        }
+    }
+
+    public function getProductMediaList($sku)
+    {
+        try
+        {
+            $response = $this->getClient()->get("products/{$sku}/media");
+
+            if ($response->getStatusCode() === 200) {
+                return json_decode((string) $response->getBody());
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\GuzzleHttp\Exception\ClientException $ex)
+        {
+            \Log::error($ex->getResponse()->getBody());
+            return NULL;
         }
     }
 
