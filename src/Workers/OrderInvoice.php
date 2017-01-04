@@ -22,10 +22,10 @@ class OrderInvoice extends Worker implements OrderInvoiceInterface
         {
             $response = $this->client->post("order/{$orderId}/invoice", [
                 'json' => [
-                    'items'           => $items,
-                    'comment'         => $comment,
-                    'isNotify'        => $isNotify,
-                    'isAppendComment' => $isAppendComment
+                    'items'         => $items,
+                    'comment'       => $comment,
+                    'notify'        => $isNotify,
+                    'appendComment' => $isAppendComment
                 ]
             ]);
 
