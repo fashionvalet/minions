@@ -39,7 +39,7 @@ class OrderInvoice extends Worker implements OrderInvoiceInterface
         }
         catch (ClientException $ex)
         {
-            Log::error($ex->getMessage());
+            \Log::error($ex->getMessage());
             return false;
         }
     }
