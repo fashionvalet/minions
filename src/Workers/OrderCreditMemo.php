@@ -11,7 +11,7 @@ class OrderCreditMemo extends Worker implements OrderCreditMemoInterface
     {
         try
         {
-            $response = $this->getClient()->get("creditmemos/{$id}");
+            $response = $this->getClient()->get("creditmemo/{$id}");
 
             if ($response->getStatusCode() === 200) {
                 return json_decode((string) $response->getBody());
