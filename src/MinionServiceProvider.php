@@ -12,6 +12,7 @@ class MinionServiceProvider extends ServiceProvider
         'fv.minion.invoice' => \Fv\Minions\Workers\Invoice::class,
         'fv.minion.inventory'  => \Fv\Minions\Workers\Inventory::class,
         'fv.minion.creditmemo' => \Fv\Minions\Workers\OrderCreditMemo::class,
+        'fv.minion.customer' => \Fv\Minions\Workers\Customer::class
     ];
 
     public function register()
