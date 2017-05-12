@@ -24,7 +24,9 @@ class Product extends Worker implements ProductInterface
         return $this->getSoapService()->call('catalogProductAttributeInfo', [$this->getSoapSession(), $code]);
     }
 
-    public function getProductInfoById($productId, $storeView = null, $attributes = array(), $productIdentifierType = "")
+    public function getProductInfoById($productId, $storeView = null,
+                                       $attributes = array(),
+                                       $productIdentifierType = "")
     {
         return $this->getSoapService()->call('catalogProductInfo', [$this->getSoapSession(), $productId, $storeView, $attributes, $productIdentifierType]);
     }
@@ -42,11 +44,18 @@ class Product extends Worker implements ProductInterface
     public function createProduct($data)
     {
         // get attribute set
-        $attributeSets = $this->execute('catalogProductAttributeSetList', []);
-        $attributeSet = current($attributeSets);
+        if (!isset($data['attribute_set_id'])) {
+            $attributeSets    = $this->execute('catalogProductAttributeSetList', []);
+            $attributeSet     = current($attributeSets);
+            $attribute_set_id = $attributeSet->set_id;
+        }
+        else {
+            $attribute_set_id = $data['attribute_set_id'];
+        }
 
-        return $this->execute('catalogProductCreate', [$data['type'], $attributeSet->set_id, $data['sku'], $data]);
+        return $this->execute('catalogProductCreate', [$data['type'], $attribute_set_id, $data['sku'], $data]);
     }
+
 }
 
 /* End of file Product.php */
