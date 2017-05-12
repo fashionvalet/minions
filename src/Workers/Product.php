@@ -53,7 +53,7 @@ class Product extends Worker implements ProductInterface
             $attribute_set_id = $data['attribute_set_id'];
         }
 
-        return $this->execute('catalogProductCreate', [$data['type'], $attribute_set_id, $data['sku'], $data]);
+        return $this->getSoapService()->call('catalogProductCreate', [$this->getSoapSession(), $data['type'], $attribute_set_id, $data['sku'], $data]);
     }
 
 }
