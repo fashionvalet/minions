@@ -32,16 +32,8 @@ class Minion
     {
         try
         {
-            $response = $this->client->post("integration/admin/token", [
-                'json' => [
-                    'username' => $this->settings['username'],
-                    'password' => $this->settings['password']
-                ]
-            ]);
-
-            if ($response->getStatusCode() === 200) {
-                $body = str_replace('"', '', $response->getBody()->read(1024));
-                return $body;
+            if (env('MAGENTO_INTEGRATION_KEY')) {
+                return env('MAGENTO_INTEGRATION_KEY');
             }
             else {
                 return false;
@@ -59,7 +51,7 @@ class Minion
             'base_uri' => $this->settings['api_uri'],
             'timeout'  => $this->settings['api_timeout'],
             'headers'  => [
-                'Authorization' => "Bearer {$this->access_token}"
+                'Authorization' => "Bearer ". env('MAGENTO_INTEGRATION_KEY')
             ]
         ]);
     }
